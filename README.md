@@ -1,5 +1,8 @@
 # gccとterapadの連携環境の構築
+
 ## terapadを`tp ファイル名`で起動できるようにする
+
+### "terapad.exe"を"tp.exe"へ名前変更
 
 まず，スタートメニューからTrapadを右クリック→その他→ファイルの場所を開く
 
@@ -34,6 +37,9 @@ terapadのショートカットを右クリックし，プロパティを開く
 
 ![スクリーンショット (67)](https://user-images.githubusercontent.com/72436563/118347036-0be39080-b57b-11eb-9ab3-a42ec2fa62a9.png)
 
+### Pathに追加
+コマンドプロンプトでどのフォルダにいてもコマンド`tp ファイル名`が使えるようにする．
+<br><br>
 設定を開き，検索バーに"環境"と入力し"環境変数を編集"をクリック
 
 ![スクリーンショット (61)](https://user-images.githubusercontent.com/72436563/118347583-5ff07400-b57f-11eb-9de5-dd4511c0bbbc.png)
@@ -50,4 +56,63 @@ terapadのショートカットを右クリックし，プロパティを開く
 すべてOKを押して終了です．  
 コマンドプロンプトを開いて`tp + Enter`とうってterapadが起動したら成功です．
 
-####
+## gccコマンドを使いやすくする
+gccコンパイラは仕様としてコンパイルしたときにできるファイル名が`a.exe`になる．ファイル名を指定するときは`gcc -o コンパイル後の実行ファイル(exe)名 コンパイルするファイル名(c)`というコマンドを打たなければならず少しbcc32cよりも使いにくい．そこで，バッチファイルをつかって上のコマンドを短縮することができる．
+
+### "gccc.bat"を作成
+
+まず、エクスプローラーを開いて`C:\`に移動する
+
+![image](https://user-images.githubusercontent.com/72436563/118348789-93370100-b587-11eb-8468-69f9d023e1fc.png)
+
+そこで空白部分を右クリック→新規作成→フォルダーでフォルダを新しく作る
+
+![スクリーンショット (77)](https://user-images.githubusercontent.com/72436563/118348848-e27d3180-b587-11eb-8e00-92bd952dc877.png)
+
+![スクリーンショット (78)](https://user-images.githubusercontent.com/72436563/118348857-017bc380-b588-11eb-8bea-70a6fbd342c3.png)
+
+名前は"bin"にする
+
+![スクリーンショット (79)](https://user-images.githubusercontent.com/72436563/118348872-16585700-b588-11eb-872a-acf46b2083dc.png)
+
+フォルダを開いて，右クリック→新規作成→テキストドキュメント　でテキストファイルを作成する
+
+![スクリーンショット (80)](https://user-images.githubusercontent.com/72436563/118348912-4bfd4000-b588-11eb-8d2d-a752b89ee391.png)
+
+名前を`gccc.txt`に変更する
+
+![スクリーンショット (83)](https://user-images.githubusercontent.com/72436563/118348943-823abf80-b588-11eb-9f23-0df4ecb3037d.png)
+
+開いて以下の文字列を入力する
+```
+@echo off
+gcc -o %1 %1.c
+```
+
+![スクリーンショット (85)](https://user-images.githubusercontent.com/72436563/118348961-a3031500-b588-11eb-944b-3ef72e2a1255.png)
+
+ファイルタブ→名前を付けて保存(A)
+
+![スクリーンショット (86)](https://user-images.githubusercontent.com/72436563/118348989-d0e85980-b588-11eb-9a60-f0c0239b55de.png)
+
+拡張子を".txt"から".bat"に変更して保存する
+
+![スクリーンショット (88)](https://user-images.githubusercontent.com/72436563/118349011-fd03da80-b588-11eb-8374-6abe3e05ff2b.png)
+
+### Pathの設定
+
+検索バーをクリックし，`C:\bin`か下の画像のようになっていることを確認し(入ってなかったらここへ移動)，このパス`C:\bin`をコピー
+
+![スクリーンショット (91)](https://user-images.githubusercontent.com/72436563/118349069-6edc2400-b589-11eb-9a36-5786eae74988.png)
+
+さっきのように 環境変数の編集→Pathを選択して編集　で下の画像までくる<br>
+そして、したのように新規をクリックしてさっきコピーしたPath`C:\bin`を追加する<br>
+
+![スクリーンショット (92)](https://user-images.githubusercontent.com/72436563/118349154-f3c73d80-b589-11eb-909e-67f0c1e9b563.png)
+
+すべて"OK"を押して終了<br>
+コマンドの指定方法は，したのように".c"をぬいたファイル名をつかいます
+```
+gccc ex02-01
+```
+コマンドプロンプトを開き，なにかコンパイルしてみてください
