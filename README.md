@@ -1,4 +1,4 @@
-# gccとterapadの連携環境の構築
+# gccとterapadによるc言語開発環境の設定
 
 ## terapadを`tp ファイル名`で起動できるようにする
 
